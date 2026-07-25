@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepTrace Architecture</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --accent-blue: #0078D4; /* Azure/Enterprise Blue */
+            --accent-blue-light: #eff6fc;
+            --text-dark: #242424;
+            --text-muted: #616161;
+            --border-light: #e1dfdd;
+            --card-bg: #ffffff;
+            --shadow: 0 1.6px 3.6px 0 rgba(0,0,0,0.132), 0 0.3px 0.9px 0 rgba(0,0,0,0.108);
+            --shadow-hover: 0 3.2px 7.2px 0 rgba(0,0,0,0.132), 0 0.6px 1.8px 0 rgba(0,0,0,0.108);
+            --radius: 6px;
+            --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: #f3f2f1; /* Light gray background to make white canvas pop */
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .canvas {
+            background-color: var(--bg-color);
+            padding: 50px 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            color: var(--accent-blue);
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-style: italic;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr 250px;
+            gap: 40px;
+        }
+
+        .side-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-blue);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .side-box h3 {
+            color: var(--accent-blue);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .side-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .side-item {
+            background-color: var(--accent-blue-light);
+            border-left: 3px solid var(--accent-blue);
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .center-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .layer {
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: relative;
+        }
+
+        .layer.highlight {
+            border: 2px solid var(--accent-blue);
+            background-color: #fafbfc;
+        }
+
+        .layer-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .layer.highlight .layer-title {
+            color: var(--accent-blue);
+            font-size: 1rem;
+        }
+
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            min-width: 120px;
+            color: var(--text-dark);
+            transition: box-shadow 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .ai-module {
+            background-color: #fff;
+            border: 1px solid var(--accent-blue);
+            border-radius: var(--radius);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .ai-module h4 {
+            margin: 0 0 8px 0;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .ai-module span {
+            display: inline-block;
+            background-color: var(--accent-blue-light);
+            color: var(--accent-blue);
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .api-endpoints {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .api-endpoint {
+            font-family: monospace;
+            background-color: #333;
+            color: #4CAF50;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .arrow {
+            display: flex;
+            justify-content: center;
+            color: var(--accent-blue);
+            height: 20px;
+        }
+
+        .arrow svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Tech Stack Bottom */
+        .tech-stack-container {
+            margin-top: 50px;
+            border-top: 2px solid var(--border-light);
+            padding-top: 30px;
+        }
+
+        .tech-stack-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .tech-category {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .tech-category h4 {
+            margin: 0 0 10px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .tech-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tech-badge {
+            background-color: #f3f2f1;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #d2d0ce;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="canvas">
+    <div class="header">
+        <h1>DeepTrace</h1>
+        <p>"Every Behavior Tells a Story. Every Threat Leaves a Trace."</p>
+    </div>
+
+    <div class="layout-grid">
+        
+        <!-- LEFT COLUMN -->
+        <div class="side-column">
+            <div class="side-box">
+                <h3>Synthetic Data Generator</h3>
+                <div class="side-list">
+                    <div class="side-item">Normal User Behavior</div>
+                    <div class="side-item">Insider Threats</div>
+                    <div class="side-item">Credential Theft</div>
+                    <div class="side-item">Brute Force</div>
+                    <div class="side-item">Impossible Travel</div>
+                    <div class="side-item">Privilege Escalation</div>
+                    <div class="side-item">Data Exfiltration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER COLUMN -->
+        <div class="center-column">
+            
+            <!-- Layer 1 -->
+            <div class="layer">
+                <h2 class="layer-title">Layer 1 — Enterprise Activity Sources</h2>
+                <div class="card-grid">
+                    <div class="card">User Login Events</div>
+                    <div class="card">File Access</div>
+                    <div class="card">Database Queries</div>
+                    <div class="card">VPN Access</div>
+                    <div class="card">Email Activity</div>
+                    <div class="card">USB Events</div>
+                    <div class="card">Network Requests</div>
+                    <div class="card">Cloud Applications</div>
+                    <div class="card">Auth Logs</div>
+                </div>
+            </div>
+
+            <div class="arrow">
+                <svg viewBox="0 0 24 24"><path d="M12 21l-8-8h5V3h6v10h5z"/></svg>
+            </div>
+
+            <!-- Layer 2 -->
+            <div class="layer">
+                <h2 class="layer-title">Layer 2 — Data Collection & Processing</h2>
+                <div class="card-grid">
+                    <div class="card">Log Aggregator</div>
+                    <div class="card">Event Stream Processor</div>
+                    <div class="card">Feature Engineering</div>
+                    <div class="card">Sequence Builder</div>
+                    <div class="card">Data Validation</div>
+                </div>
+            </div>
+
+            <div class="arrow">
+                <svg viewBox="0 0 24 24"><path d="M12 21l-8-8h5V3h6v10h5z"/></svg>
+            </div>
+
+            <!-- Layer 3 -->
+            <div class="layer highlight">
+                <h2 class="layer-title">Layer 3 — AI Intelligence Engine</h2>
+                <div class="ai-grid">
+                    <div class="ai-module">
+                        <h4>Baseline Detection</h4>
+                        <span>Isolation Forest</span>
+                    </div>
+                    <div class="ai-module">
+                        <h4>Sequence Learning</h4>
+                        <span>Transformer Encoder</span>
+                    </div>
+                    <div class="ai-module">
+                        <h4>Threat Classification</h4>
+                        <span>XGBoost Classifier</span>
+                    </div>
+                    <div class="ai-module">
+                        <h4>Explainability</h4>
+                        <span>SHAP Explanations</span>
+                    </div>
+                    <div class="ai-module">
+                        <h4>Behavior Profiling</h4>
+                        <span>User Behavior Profiles</span>
+                    </div>
+                    <div class="ai-module">
+                        <h4>Threat Scoring</h4>
+                        <span>Risk Score Generator</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="arrow">
+                <svg viewBox="0 0 24 24"><path d="M12 21l-8-8h5V3h6v10h5z"/></svg>
+            </div>
+
+            <!-- Layer 4 -->
+            <div class="layer">
+                <h2 class="layer-title">Layer 4 — Threat Intelligence</h2>
+                <div class="card-grid">
+                    <div class="card">Behavioral Anomaly Detection</div>
+                    <div class="card">Insider Threat Detection</div>
+                    <div class="card">Compromised Account Detection</div>
+                    <div class="card">Privilege Escalation Detection</div>
+                    <div class="card">Impossible Travel Detection</div>
+                    <div class="card">Alert Prioritization</div>
+                </div>
+            </div>
+
+            <div class="arrow">
+                <svg viewBox="0 0 24 24"><path d="M12 21l-8-8h5V3h6v10h5z"/></svg>
+            </div>
+
+            <!-- Layer 5 -->
+            <div class="layer">
+                <h2 class="layer-title">Layer 5 — REST API Layer (FastAPI)</h2>
+                <div class="api-endpoints">
+                    <div class="api-endpoint">GET /predict</div>
+                    <div class="api-endpoint">GET /explain</div>
+                    <div class="api-endpoint">GET /alerts</div>
+                    <div class="api-endpoint">GET /dashboard</div>
+                    <div class="api-endpoint">GET /timeline</div>
+                    <div class="api-endpoint">GET /analytics</div>
+                </div>
+            </div>
+
+            <div class="arrow">
+                <svg viewBox="0 0 24 24"><path d="M12 21l-8-8h5V3h6v10h5z"/></svg>
+            </div>
+
+            <!-- Layer 6 -->
+            <div class="layer">
+                <h2 class="layer-title">Layer 6 — Frontend Dashboard (React + TS)</h2>
+                <div class="card-grid">
+                    <div class="card">Executive Dashboard</div>
+                    <div class="card">Threat Investigation</div>
+                    <div class="card">Behavior Timeline</div>
+                    <div class="card">Alerts Center</div>
+                    <div class="card">Analytics</div>
+                    <div class="card">Model Insights</div>
+                    <div class="card">User Profiles</div>
+                </div>
+            </div>
+
+            <div class="arrow">
+                <svg viewBox="0 0 24 24"><path d="M12 21l-8-8h5V3h6v10h5z"/></svg>
+            </div>
+
+            <!-- Layer 7 -->
+            <div class="layer">
+                <h2 class="layer-title">Layer 7 — End Users</h2>
+                <div class="card-grid">
+                    <div class="card" style="background-color: var(--accent-blue); color: white; border: none;">SOC Analyst</div>
+                    <div class="card" style="background-color: var(--accent-blue); color: white; border: none;">Security Administrator</div>
+                    <div class="card" style="background-color: var(--accent-blue); color: white; border: none;">IT Operations</div>
+                    <div class="card" style="background-color: var(--accent-blue); color: white; border: none;">Management</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="side-column">
+            <div class="side-box">
+                <h3>Model Evaluation</h3>
+                <div class="side-list">
+                    <div class="side-item">Precision</div>
+                    <div class="side-item">Recall</div>
+                    <div class="side-item">F1 Score</div>
+                    <div class="side-item">ROC-AUC</div>
+                    <div class="side-item">PR-AUC</div>
+                    <div class="side-item">Confusion Matrix</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="tech-stack-container">
+        <h3 class="tech-stack-title">Technology Stack</h3>
+        <div class="tech-stack-grid">
+            <div class="tech-category">
+                <h4>Frontend</h4>
+                <div class="tech-items">
+                    <span class="tech-badge">React</span>
+                    <span class="tech-badge">TypeScript</span>
+                    <span class="tech-badge">TailwindCSS</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>Backend</h4>
+                <div class="tech-items">
+                    <span class="tech-badge">FastAPI</span>
+                    <span class="tech-badge">Python</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>AI / ML</h4>
+                <div class="tech-items">
+                    <span class="tech-badge">PyTorch</span>
+                    <span class="tech-badge">Isolation Forest</span>
+                    <span class="tech-badge">XGBoost</span>
+                    <span class="tech-badge">SHAP</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>Data</h4>
+                <div class="tech-items">
+                    <span class="tech-badge">Pandas</span>
+                    <span class="tech-badge">NumPy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
