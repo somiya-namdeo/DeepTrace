@@ -1,0 +1,28 @@
+
+DeepTrace Concept Drift Analysis
+
+Overall Drift Score:
+0.0125
+
+System Status:
+Stable
+
+
+Feature Summary:
+
+Stable Features:
+47
+
+Warning Features:
+2
+
+Drift Detected Features:
+0
+
+
+Observed Changes:
+
+   Feature  PSI Score  Status
+department   0.108691 Warning
+      role   0.169809 Warning
+

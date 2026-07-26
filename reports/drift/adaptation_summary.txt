@@ -1,0 +1,23 @@
+
+
+DeepTrace Behaviour Adaptation Report
+
+Features Updated:
+2
+
+Updated Features:
+['department', 'role']
+
+
+Adaptation Strategy:
+
+New Profile =
+0.8 * Historical Behaviour
++
+0.2 * Current Behaviour
+
+
+Purpose:
+
+Reduce false positives caused by legitimate behavioural changes.
+

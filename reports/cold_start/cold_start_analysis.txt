@@ -1,0 +1,21 @@
+
+
+DeepTrace Cold Start Adaptation Report
+
+Purpose:
+Score new users/devices without historical behaviour.
+
+Approach:
+Peer behaviour similarity matching.
+
+Similarity Score:
+0.8136
+
+Cold Start Risk:
+18.64
+
+Risk Level:
+Low
+
+The system avoids automatically marking unknown entities
+as malicious and uses similar behavioural profiles.
