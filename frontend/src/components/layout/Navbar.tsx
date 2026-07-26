@@ -17,9 +17,7 @@ export const Navbar: React.FC = () => {
         
         {/* Brand */}
         <div className="flex items-center space-x-3">
-          <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30">
-            <div className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(147,51,234,0.8)]" />
-          </div>
+          <img src="/logo.png" alt="DeepTrace Logo" className="h-9 hover:scale-105 transition-transform duration-300" />
           <div>
             <h1 className="text-white font-semibold text-lg leading-tight tracking-wide">DeepTrace</h1>
             <p className="text-muted text-[10px] uppercase tracking-widest font-mono">AI Intelligence Console</p>
