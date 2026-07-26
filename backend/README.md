@@ -39,3 +39,27 @@ At startup, the application attempts to load models from:
 - `models/trained/transformers/best_transformer_model.pth`
 
 If the actual models are not present, the system will log a warning and initialize fallback mock models for development and testing purposes.
+
+## Cold Start API Testing
+
+Endpoint:
+POST /api/cold-start/predict
+
+Request:
+```json
+{
+ "features": [49 numerical values]
+}
+```
+
+Expected normal behaviour example:
+- Similarity: ~0.81
+- Risk: ~18
+- Risk Level: Low
+
+Expected unknown behaviour example:
+- Similarity: low
+- Risk: high
+- Risk Level: High/Critical
+
+This validates Notebook 10 behaviour without requiring the full pipeline.

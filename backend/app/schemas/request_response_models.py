@@ -48,3 +48,25 @@ class MetricsResponse(BaseModel):
     Recall: float
     F1Score: float
     ROCAUC: float
+
+class DriftAffectedFeature(BaseModel):
+    feature: str
+    psi_score: float
+    status: str
+
+class DriftStatusResponse(BaseModel):
+    overall_drift_score: float
+    system_status: str
+    stable_features: int
+    warning_features: int
+    drift_detected_features: int
+    affected_features: List[DriftAffectedFeature]
+
+class ColdStartRequest(BaseModel):
+    features: List[float] = Field(..., min_items=49, max_items=49, description="Array of 49 engineered features.")
+
+class ColdStartResponse(BaseModel):
+    similarity_score: float
+    cold_start_risk_score: float
+    risk_level: str
+    explanation: str
