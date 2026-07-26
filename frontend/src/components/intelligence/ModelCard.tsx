@@ -9,12 +9,12 @@ export const ModelCard: React.FC<{
   glowColor?: 'primary' | 'secondary' | 'warning' | 'critical' | 'none';
 }> = ({ title, name, status, subtitle, glowColor = 'none' }) => {
   return (
-    <GlassCard glow={glowColor} className="flex flex-col justify-between hover:bg-surface/80 transition-colors">
-      <div className="flex justify-between items-start mb-2">
+    <GlassCard glow={glowColor} className="flex flex-col justify-between p-4 h-full">
+      <div className="flex justify-between items-start mb-1">
         <h4 className="text-[10px] uppercase tracking-widest text-white/50 font-mono mb-1">{title}</h4>
         {status === 'ACTIVE' || status === 'OPERATIONAL' ? (
           <div className="flex items-center space-x-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(147,51,234,0.8)] animate-pulse" />
+            <div className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(147,51,234,0.8)] animate-[pulse_3s_ease-in-out_infinite]" />
             <span className="text-[10px] text-white font-mono uppercase tracking-widest">{status}</span>
           </div>
         ) : (

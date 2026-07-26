@@ -1,12 +1,8 @@
 import React from 'react';
 
-export const ReasoningTrace: React.FC = () => {
+export const ReasoningTrace: React.FC<{ explanation: string }> = ({ explanation }) => {
   const traces = [
-    { time: '-12h', title: 'Normal Behaviour Baseline', desc: 'User operating within expected peer boundaries.', type: 'normal' },
-    { time: '-2h', title: 'Failed Login Spike', desc: '5 failed logins from unfamiliar IP.', type: 'suspicious' },
-    { time: '-1h', title: 'Unusual Location', desc: 'Successful login from region not seen in 90 days.', type: 'suspicious' },
-    { time: '-30m', title: 'Resource Access Change', desc: 'Accessing sensitive database typically untouched by this role.', type: 'critical' },
-    { time: '0m', title: 'Threat Classification', desc: 'AI confidence 97% for Account Compromise.', type: 'critical' },
+    { time: '0m', title: 'AI Reasoning Output', desc: explanation, type: 'critical' },
   ];
 
   return (
@@ -23,7 +19,7 @@ export const ReasoningTrace: React.FC = () => {
             <div className="flex items-start justify-between">
               <div>
                 <h4 className="text-white font-medium mb-1">{trace.title}</h4>
-                <p className="text-white/60 text-sm">{trace.desc}</p>
+                <p className="text-white/60 text-sm whitespace-pre-wrap">{trace.desc}</p>
               </div>
               <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">{trace.time}</span>
             </div>

@@ -1,12 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Container } from '../components/layout/Container';
 import { SystemStatusFooter } from '../components/layout/SystemStatusFooter';
 import { GlassCard } from '../components/common/GlassCard';
 import { AreaChart } from '../components/visualizations/AreaChart';
 import { CircularMetric } from '../components/common/CircularMetric';
+import { behaviourService } from '../services/behaviourService';
+import { coldStartService } from '../services/coldStartService';
+import { mockColdStartFeatures } from '../data/mockColdStartFeatures';
+import type { DriftStatusResponse, ColdStartResponse } from '../types/api';
+import { Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const BehaviourEvolution: React.FC = () => {
+  const [driftStatus, setDriftStatus] = useState<DriftStatusResponse | null>(null);
+  const [coldStart, setColdStart] = useState<ColdStartResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    Promise.all([
+      behaviourService.getDriftStatus(),
+      coldStartService.predictColdStart(mockColdStartFeatures)
+    ]).then(([drift, cold]) => {
+      setDriftStatus(drift);
+      setColdStart(cold);
+      setLoading(false);
+    }).catch(err => {
+      console.error(err);
+      setError(true);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[80vh] text-white">
+        <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+        <div className="text-xl font-mono tracking-widest uppercase">DeepTrace Intelligence Core Initializing...</div>
+      </div>
+    );
+  }
+
+  if (error || !driftStatus || !coldStart) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[80vh] text-white">
+        <div className="w-3 h-3 bg-critical rounded-full animate-pulse shadow-[0_0_15px_rgba(244,63,94,0.8)] mb-4" />
+        <div className="text-xl font-mono tracking-widest uppercase mb-6 text-critical">Unable to connect to DeepTrace Reasoning Core</div>
+        <button onClick={() => window.location.reload()} className="px-6 py-2 border border-white/20 bg-white/5 hover:bg-white/10 rounded font-mono uppercase text-xs tracking-widest transition-colors">Retry Connection</button>
+      </div>
+    );
+  }
+
+
+
   return (
     <>
       <Container className="pb-16 pt-8 max-w-7xl">
@@ -26,6 +73,28 @@ export const BehaviourEvolution: React.FC = () => {
           </p>
         </motion.div>
 
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="mb-12"
+        >
+          <GlassCard className="p-6 border border-primary/30 hover:border-primary/50 transition-all duration-300 shadow-[0_0_15px_rgba(147,51,234,0.1)] hover:shadow-[0_0_20px_rgba(147,51,234,0.2)]">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-2">Behaviour Investigation</h3>
+                <p className="text-white/60 text-sm max-w-2xl">
+                  Investigate a user, device, or identity against learned behavioural clusters and understand how AI reaches its decision.
+                </p>
+              </div>
+              <Link to="/behaviour-investigation" className="group shrink-0 flex items-center space-x-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-[1.03] shadow-[0_0_15px_rgba(147,51,234,0.3)]">
+                <span>Start Investigation</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+            </div>
+          </GlassCard>
+        </motion.div>
+
         {/* 2. Concept Drift Overview */}
         <motion.div 
           initial={{ opacity: 0 }}
@@ -42,21 +111,21 @@ export const BehaviourEvolution: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <GlassCard className="p-5 flex flex-col justify-center border-t border-t-white/10 hover:border-t-warning/50 transition-colors group">
+            <GlassCard className={`p-5 flex flex-col justify-center border-t border-t-white/10 hover:border-t-warning/50 transition-colors group`}>
               <div className="flex justify-between items-start mb-3">
                 <span className="text-[10px] text-white/40 uppercase font-mono tracking-widest">Overall Drift Score</span>
-                <div className="flex items-center text-[9px] text-warning font-mono uppercase tracking-widest bg-warning/10 px-2 py-0.5 rounded border border-warning/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-warning mr-1.5" />
-                  Elevated
+                <div className={`flex items-center text-[9px] ${driftStatus.overall_drift_score > 0.05 ? 'text-warning bg-warning/10 border-warning/20' : 'text-secondary bg-secondary/10 border-secondary/20'} font-mono uppercase tracking-widest px-2 py-0.5 rounded border`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${driftStatus.overall_drift_score > 0.05 ? 'bg-warning' : 'bg-secondary'} mr-1.5`} />
+                  {driftStatus.overall_drift_score > 0.05 ? 'Elevated' : 'Normal'}
                 </div>
               </div>
-              <span className="text-3xl font-semibold text-warning group-hover:scale-105 origin-left transition-transform">0.0124</span>
+              <span className={`text-3xl font-semibold ${driftStatus.overall_drift_score > 0.05 ? 'text-warning' : 'text-secondary'} group-hover:scale-105 origin-left transition-transform`}>{driftStatus.overall_drift_score.toFixed(4)}</span>
             </GlassCard>
 
             <GlassCard className="p-5 flex flex-col justify-center border-t border-t-white/10 hover:border-t-warning/50 transition-colors group">
               <span className="text-[10px] text-white/40 uppercase font-mono tracking-widest mb-3">System Status</span>
               <div>
-                <div className="text-3xl font-semibold text-warning mb-1 group-hover:scale-105 origin-left transition-transform">Warning</div>
+                <div className="text-3xl font-semibold text-warning mb-1 group-hover:scale-105 origin-left transition-transform">{driftStatus.system_status}</div>
                 <div className="text-[10px] text-warning/70 uppercase font-mono">Concept drift detected</div>
               </div>
             </GlassCard>
@@ -65,7 +134,7 @@ export const BehaviourEvolution: React.FC = () => {
               <div className="flex justify-between items-start mb-3">
                 <span className="text-[10px] text-white/40 uppercase font-mono tracking-widest">Stable Features</span>
               </div>
-              <span className="text-3xl font-semibold text-secondary mb-1 group-hover:scale-105 origin-left transition-transform">47</span>
+              <span className="text-3xl font-semibold text-secondary mb-1 group-hover:scale-105 origin-left transition-transform">{driftStatus.stable_features}</span>
               <div className="text-[10px] text-white/40 uppercase font-mono flex items-center">
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary mr-2 shadow-[0_0_8px_rgba(45,212,191,0.8)]" />
                 Within baseline range
@@ -76,7 +145,7 @@ export const BehaviourEvolution: React.FC = () => {
               <div className="flex justify-between items-start mb-3">
                 <span className="text-[10px] text-white/40 uppercase font-mono tracking-widest">Warning Features</span>
               </div>
-              <span className="text-3xl font-semibold text-warning mb-1 group-hover:scale-105 origin-left transition-transform">2</span>
+              <span className="text-3xl font-semibold text-warning mb-1 group-hover:scale-105 origin-left transition-transform">{driftStatus.warning_features}</span>
               <div className="text-[10px] text-warning/70 uppercase font-mono flex items-center">
                 <span className="w-1.5 h-1.5 rounded-full bg-warning mr-2 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
                 Requires monitoring
@@ -109,12 +178,13 @@ export const BehaviourEvolution: React.FC = () => {
             
             <AreaChart />
             
-            <div className="px-6 pb-6 pt-0 flex items-center space-x-4">
-              <span className="text-[10px] text-white/40 uppercase font-mono tracking-widest">Affected Behaviour</span>
-              <div className="flex space-x-2">
-                <span className="text-[10px] px-3 py-1 rounded-full border border-warning/30 text-warning bg-warning/5 font-mono shadow-[0_0_10px_rgba(245,158,11,0.1)]">department</span>
-                <span className="text-[10px] px-3 py-1 rounded-full border border-warning/30 text-warning bg-warning/5 font-mono shadow-[0_0_10px_rgba(245,158,11,0.1)]">role</span>
-              </div>
+            <div className="px-6 pb-6 pt-0 flex flex-wrap items-center gap-2">
+              <span className="text-[10px] text-white/40 uppercase font-mono tracking-widest mr-2">Affected Behaviour</span>
+              {driftStatus.affected_features.map((feat, idx) => (
+                <span key={idx} className="text-[10px] px-3 py-1 rounded-full border border-warning/30 text-warning bg-warning/5 font-mono shadow-[0_0_10px_rgba(245,158,11,0.1)]">
+                  {feat.feature}
+                </span>
+              ))}
             </div>
           </GlassCard>
         </motion.div>
@@ -152,8 +222,8 @@ export const BehaviourEvolution: React.FC = () => {
                     Cleared
                   </span>
                 </div>
-                <div className="text-2xl font-semibold text-secondary tracking-tight mb-2">LOW RISK</div>
-                <p className="text-white/60 text-sm">Entity behaviour is consistent with similar behavioural profiles.</p>
+                <div className="text-2xl font-semibold text-secondary tracking-tight mb-2">{coldStart.risk_level.toUpperCase()}</div>
+                <p className="text-white/60 text-sm">{coldStart.explanation}</p>
               </div>
             </GlassCard>
 
@@ -173,28 +243,34 @@ export const BehaviourEvolution: React.FC = () => {
               <div className="space-y-6 flex-1 flex flex-col justify-center items-center py-2 relative">
                 {/* Low Risk Badge */}
                 <div className="absolute top-0 left-0 bg-secondary/10 border border-secondary/20 text-secondary text-[10px] font-mono tracking-widest px-2 py-1 rounded uppercase">
-                  Low Risk
+                  {coldStart.risk_level}
                 </div>
                 
                 <CircularMetric 
                   label="Similarity Confidence" 
-                  value={81.4} 
-                  subvalue="81.4%" 
+                  value={coldStart.similarity_score * 100} 
+                  subvalue={`${(coldStart.similarity_score * 100).toFixed(1)}%`} 
                   color="#2DD4BF" 
                 />
-                <CircularMetric 
-                  label="Risk Assessment" 
-                  value={18.6} 
-                  subvalue="18.6%" 
-                  color="#A78BFA" 
-                />
+                
+                {(() => {
+                  const normalizedRisk = coldStart.cold_start_risk_score <= 1 ? coldStart.cold_start_risk_score * 100 : coldStart.cold_start_risk_score;
+                  return (
+                    <CircularMetric 
+                      label="Risk Assessment" 
+                      value={normalizedRisk} 
+                      subvalue={`${normalizedRisk.toFixed(1)}%`} 
+                      color={normalizedRisk > 50 ? "#F43F5E" : "#A78BFA"} 
+                    />
+                  );
+                })()}
               </div>
             </GlassCard>
             
           </div>
         </motion.div>
 
-        {/* 5. Behaviour Clusters */}
+        {/* 5. Behaviour Clusters (Kept Mocked) */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import prediction, alerts, dashboard, explanation, reports, drift, cold_start
+from app.routers import prediction, alerts, dashboard, explanation, reports, drift, cold_start, behaviour, investigate
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -31,6 +31,8 @@ app.include_router(explanation.router)
 app.include_router(reports.router)
 app.include_router(drift.router)
 app.include_router(cold_start.router)
+app.include_router(behaviour.router)
+app.include_router(investigate.router)
 
 @app.get("/", tags=["Health"])
 def health_check():

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Container } from '../components/layout/Container';
 import { GlassCard } from '../components/common/GlassCard';
 import { SystemStatusFooter } from '../components/layout/SystemStatusFooter';
 import { HorizontalPipeline } from '../components/visualizations/HorizontalPipeline';
+import { modelService } from '../services/modelService';
+import type { MetricsResponse } from '../types/api';
+import { Loader2 } from 'lucide-react';
 
 const ProgressBar: React.FC<{ value: number, colorClass: string }> = ({ value, colorClass }) => (
   <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mt-2">
@@ -17,6 +20,44 @@ const ProgressBar: React.FC<{ value: number, colorClass: string }> = ({ value, c
 );
 
 export const AICore: React.FC = () => {
+  const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    modelService.getModelStatus()
+      .then(data => {
+        setMetrics(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setError(true);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[80vh] text-white">
+        <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+        <div className="text-xl font-mono tracking-widest uppercase">DeepTrace Intelligence Core Initializing...</div>
+      </div>
+    );
+  }
+
+  if (error || !metrics) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[80vh] text-white">
+        <div className="w-3 h-3 bg-critical rounded-full animate-pulse shadow-[0_0_15px_rgba(244,63,94,0.8)] mb-4" />
+        <div className="text-xl font-mono tracking-widest uppercase mb-6 text-critical">Unable to connect to DeepTrace Reasoning Core</div>
+        <button onClick={() => window.location.reload()} className="px-6 py-2 border border-white/20 bg-white/5 hover:bg-white/10 rounded font-mono uppercase text-xs tracking-widest transition-colors">Retry Connection</button>
+      </div>
+    );
+  }
+
+  const formatPct = (val: number) => (val * 100).toFixed(1);
+
   return (
     <>
       <Container className="pb-16 pt-4">
@@ -123,41 +164,41 @@ export const AICore: React.FC = () => {
                 <div>
                   <div className="flex justify-between items-end mb-1">
                     <span className="text-[10px] text-white/50 uppercase font-mono tracking-widest">Accuracy</span>
-                    <span className="text-sm font-semibold text-white font-mono">99.4%</span>
+                    <span className="text-sm font-semibold text-white font-mono">{formatPct(metrics.Accuracy)}%</span>
                   </div>
-                  <ProgressBar value={99.4} colorClass="bg-white/80" />
+                  <ProgressBar value={metrics.Accuracy * 100} colorClass="bg-white/80" />
                 </div>
                 
                 <div>
                   <div className="flex justify-between items-end mb-1">
                     <span className="text-[10px] text-white/50 uppercase font-mono tracking-widest">Precision</span>
-                    <span className="text-sm font-semibold text-white font-mono">88.2%</span>
+                    <span className="text-sm font-semibold text-white font-mono">{formatPct(metrics.Precision)}%</span>
                   </div>
-                  <ProgressBar value={88.2} colorClass="bg-white/80" />
+                  <ProgressBar value={metrics.Precision * 100} colorClass="bg-white/80" />
                 </div>
                 
                 <div>
                   <div className="flex justify-between items-end mb-1">
                     <span className="text-[10px] text-white/50 uppercase font-mono tracking-widest">Recall</span>
-                    <span className="text-sm font-semibold text-white font-mono">85.7%</span>
+                    <span className="text-sm font-semibold text-white font-mono">{formatPct(metrics.Recall)}%</span>
                   </div>
-                  <ProgressBar value={85.7} colorClass="bg-white/80" />
+                  <ProgressBar value={metrics.Recall * 100} colorClass="bg-white/80" />
                 </div>
 
                 <div className="pb-2">
                   <div className="flex justify-between items-end mb-1">
                     <span className="text-[10px] text-white/50 uppercase font-mono tracking-widest">F1 Score</span>
-                    <span className="text-sm font-semibold text-white font-mono">86.9%</span>
+                    <span className="text-sm font-semibold text-white font-mono">{formatPct(metrics.F1Score)}%</span>
                   </div>
-                  <ProgressBar value={86.9} colorClass="bg-white/80" />
+                  <ProgressBar value={metrics.F1Score * 100} colorClass="bg-white/80" />
                 </div>
                 
                 <div className="bg-primary/10 -mx-5 px-5 py-4 -mb-5 border-t border-primary/20 rounded-b-xl flex flex-col">
                   <div className="flex justify-between items-end mb-1.5">
                     <span className="text-[10px] text-primary uppercase font-mono tracking-widest font-semibold">ROC-AUC</span>
-                    <span className="text-xl font-semibold text-primary font-mono">97.5%</span>
+                    <span className="text-xl font-semibold text-primary font-mono">{formatPct(metrics.ROCAUC)}%</span>
                   </div>
-                  <ProgressBar value={97.5} colorClass="bg-primary shadow-[0_0_8px_rgba(147,51,234,0.8)]" />
+                  <ProgressBar value={metrics.ROCAUC * 100} colorClass="bg-primary shadow-[0_0_8px_rgba(147,51,234,0.8)]" />
                 </div>
                 
               </div>

@@ -5,6 +5,7 @@ import { CommandCenter } from './pages/CommandCenter';
 import { Investigations } from './pages/Investigations';
 import { AICore } from './pages/AICore';
 import { BehaviourEvolution } from './pages/BehaviourEvolution';
+import { BehaviourInvestigation } from './pages/BehaviourInvestigation';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/investigations" element={<PageWrapper><Investigations /></PageWrapper>} />
             <Route path="/ai-core" element={<PageWrapper><AICore /></PageWrapper>} />
             <Route path="/behaviour-evolution" element={<PageWrapper><BehaviourEvolution /></PageWrapper>} />
+            <Route path="/behaviour-investigation" element={<PageWrapper><BehaviourInvestigation /></PageWrapper>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

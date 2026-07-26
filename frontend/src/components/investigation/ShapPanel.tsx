@@ -1,14 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export const ShapPanel: React.FC = () => {
-  const features = [
-    { name: 'Failed Logins (1h)', pct: 45 },
-    { name: 'Login Location', pct: 25 },
-    { name: 'Distinct Resources Accessed', pct: 15 },
-    { name: 'Time Deviation', pct: 9 },
-    { name: 'Device Fingerprint Shift', pct: 6 },
-  ];
+export const ShapPanel: React.FC<{ features: { name: string; pct: number }[] }> = ({ features }) => {
 
   return (
     <div className="space-y-4">

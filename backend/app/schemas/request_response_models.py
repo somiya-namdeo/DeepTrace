@@ -26,6 +26,21 @@ class AlertModel(BaseModel):
     AlertCategory: str
     RecommendedAction: str
 
+class AlertSummary(BaseModel):
+    alert_id: str
+    title: str
+    risk_score: float
+    severity: str
+    confidence: str
+    status: str
+    timestamp: str
+
+class PaginatedAlerts(BaseModel):
+    total: int
+    page: int
+    limit: int
+    alerts: List[AlertSummary]
+
 class DashboardSummary(BaseModel):
     TotalEvents: int
     TotalAlerts: int
@@ -70,3 +85,42 @@ class ColdStartResponse(BaseModel):
     cold_start_risk_score: float
     risk_level: str
     explanation: str
+
+class BehaviourSpacePoint(BaseModel):
+    x: float
+    y: float
+    cluster: str
+    label: str
+
+class BehaviourSpaceResponse(BaseModel):
+    points: List[BehaviourSpacePoint]
+
+class IdentityInfo(BaseModel):
+    identity_id: str
+    events_analyzed: int
+    last_activity: str
+    department: str
+
+class BehaviouralSignal(BaseModel):
+    name: str
+    value: str
+    status: str # e.g. "normal", "deviation"
+
+class ClusterComparison(BaseModel):
+    closest_cluster: str
+    similarity_score: float
+    deviation_level: str
+
+class ModelAnalysis(BaseModel):
+    isolation_forest_result: str
+    transformer_score: float
+    threat_fusion_score: float
+
+class IdentityInvestigationResponse(BaseModel):
+    data_source: str
+    identity_info: IdentityInfo
+    behaviour_profile: List[BehaviouralSignal]
+    cluster_comparison: ClusterComparison
+    model_analysis: ModelAnalysis
+    ai_explanation: str
+

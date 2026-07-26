@@ -8,6 +8,7 @@ export const Navbar: React.FC = () => {
     { name: 'Investigations', path: '/investigations' },
     { name: 'AI Core', path: '/ai-core' },
     { name: 'Behaviour Evolution', path: '/behaviour-evolution' },
+    { name: 'Behaviour Investigation', path: '/behaviour-investigation' },
   ];
 
   return (
@@ -47,12 +48,9 @@ export const Navbar: React.FC = () => {
         {/* Right Status */}
         <div className="flex items-center space-x-4">
           <Badge variant="outline" className="border-secondary/30 text-secondary bg-secondary/10 px-3 py-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-secondary mr-2 shadow-[0_0_5px_rgba(45,212,191,0.5)]"></span>
+            <span className="h-1.5 w-1.5 rounded-full bg-secondary mr-2 shadow-[0_0_5px_rgba(45,212,191,0.5)] animate-pulse"></span>
             System Online
           </Badge>
-          <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-mono border border-white/20">
-            AN
-          </div>
         </div>
 
       </div>

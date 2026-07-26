@@ -16,7 +16,7 @@ export const AlertCard: React.FC<{ alert: Alert }> = ({ alert }) => {
   const glowType = alert.confidence === 'HIGH' ? 'critical' : alert.confidence === 'MEDIUM' ? 'warning' : 'none';
 
   return (
-    <GlassCard glow={glowType} className="p-4 hover:bg-surface/80 transition-colors cursor-pointer group relative overflow-hidden">
+    <GlassCard glow={glowType} className="p-4 hover:bg-surface/80 transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] cursor-pointer group relative overflow-hidden">
       <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       
       <div className="flex items-start justify-between relative z-10">
