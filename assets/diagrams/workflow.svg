@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+    <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C4DFF" />
+        </marker>
+        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.1" flood-color="#7C4DFF"/>
+        </filter>
+    </defs>
+    <rect width="1200" height="400" fill="#ffffff" />
+    <text x="600" y="50" font-family="Segoe UI, sans-serif" font-size="24" font-weight="bold" fill="#4C1D95" text-anchor="middle">Complete System Workflow</text>
+    
+    <g font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">
+        <!-- Nodes -->
+        <rect x="50" y="150" width="140" height="60" rx="8" fill="#ffffff" stroke="#7C4DFF" stroke-width="2" filter="url(#shadow)"/>
+        <text x="120" y="185" fill="#1F2937">Behaviour Telemetry</text>
+        
+        <rect x="250" y="150" width="140" height="60" rx="8" fill="#ffffff" stroke="#7C4DFF" stroke-width="2" filter="url(#shadow)"/>
+        <text x="320" y="177" fill="#1F2937">Feature</text>
+        <text x="320" y="195" fill="#1F2937">Preprocessing</text>
+
+        <rect x="450" y="100" width="140" height="60" rx="8" fill="#ffffff" stroke="#7C4DFF" stroke-width="2" filter="url(#shadow)"/>
+        <text x="520" y="127" fill="#1F2937">Transformer</text>
+        <text x="520" y="145" fill="#1F2937">Encoder</text>
+
+        <rect x="450" y="200" width="140" height="60" rx="8" fill="#ffffff" stroke="#7C4DFF" stroke-width="2" filter="url(#shadow)"/>
+        <text x="520" y="227" fill="#1F2937">Isolation</text>
+        <text x="520" y="245" fill="#1F2937">Forest</text>
+
+        <rect x="650" y="150" width="140" height="60" rx="8" fill="#ffffff" stroke="#7C4DFF" stroke-width="2" filter="url(#shadow)"/>
+        <text x="720" y="177" fill="#1F2937">Threat Fusion</text>
+        <text x="720" y="195" fill="#1F2937">Engine</text>
+
+        <rect x="850" y="150" width="120" height="60" rx="8" fill="#7C4DFF" stroke="#7C4DFF" stroke-width="2" filter="url(#shadow)"/>
+        <text x="910" y="185" fill="#ffffff">Risk Score</text>
+
+        <rect x="1030" y="150" width="120" height="60" rx="8" fill="#ffffff" stroke="#7C4DFF" stroke-width="2" filter="url(#shadow)"/>
+        <text x="1090" y="185" fill="#1F2937">Dashboard</text>
+        
+        <!-- Lines -->
+        <path d="M 190 180 L 246 180" stroke="#7C4DFF" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+        <path d="M 390 180 C 420 180, 420 130, 446 130" stroke="#7C4DFF" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+        <path d="M 390 180 C 420 180, 420 230, 446 230" stroke="#7C4DFF" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+        
+        <path d="M 590 130 C 620 130, 620 180, 646 180" stroke="#7C4DFF" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+        <path d="M 590 230 C 620 230, 620 180, 646 180" stroke="#7C4DFF" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+        
+        <path d="M 790 180 L 846 180" stroke="#7C4DFF" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+        <path d="M 970 180 L 1026 180" stroke="#7C4DFF" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    </g>
+</svg>
