@@ -18,7 +18,7 @@ class ColdStartService:
             self.scaler_path = Path(scaler_path)
             
         if profiles_path is None:
-            self.profiles_path = PROJECT_ROOT / "data" / "processed" / "deeptrace_features_FINAL.csv"
+            self.profiles_path = PROJECT_ROOT / "models" / "adaptive_profiles" / "updated_behavior_profile.csv"
         else:
             self.profiles_path = Path(profiles_path)
             
@@ -28,9 +28,18 @@ class ColdStartService:
         if self.scaler_path.exists() and self.profiles_path.exists():
             self.scaler = joblib.load(self.scaler_path)
             
-            # Load stored behavioural profiles used during Notebook 10
-            features = pd.read_csv(self.profiles_path)
-            profile_data = features.sample(5000, random_state=42)
+            # Load stored behavioural profiles
+            df = pd.read_csv(self.profiles_path)
+            
+            # If the CSV is transposed (features as rows), transpose it back so columns are features
+            if 'Feature' in df.columns:
+                df = df.set_index('Feature').T
+                
+            # Ensure we only have numeric data for the scaler
+            numeric_features = df.select_dtypes(include=[np.number])
+            
+            sample_size = min(5000, len(numeric_features))
+            profile_data = numeric_features.sample(sample_size, random_state=42)
             
             # Scale profiles using the same scaler
             self.scaled_profiles = self.scaler.transform(profile_data)
