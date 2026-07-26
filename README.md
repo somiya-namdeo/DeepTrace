@@ -13,28 +13,46 @@
 <p align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
   <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS">
+  <br>
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">
   <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="Scikit-Learn">
   <img src="https://img.shields.io/badge/SHAP-Explainable_AI-blue?style=for-the-badge" alt="SHAP">
+  <br>
+  <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy">
+  <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas">
   <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase">
   <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS">
-  <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite">
+  <img src="https://img.shields.io/badge/Uvicorn-499848?style=for-the-badge" alt="Uvicorn">
+  <br>
+  <img src="https://img.shields.io/badge/Pydantic-E92063?style=for-the-badge&logo=pydantic&logoColor=white" alt="Pydantic">
+  <img src="https://img.shields.io/badge/Mermaid-FF3670?style=for-the-badge" alt="Mermaid">
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
+  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
+  <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white" alt="Render">
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
 </p>
 
 ---
 
-<p align="center">
-  <img src="assets/screenshots/landing-1.png" alt="DeepTrace Command Center">
-</p>
+## Repository & Live Demo
+
+| Resource | Link |
+| :--- | :--- |
+| **GitHub** | [https://github.com/somiya-namdeo/DeepTrace](https://github.com/somiya-namdeo/DeepTrace) |
+| **Frontend Live** | [https://deep-trace-steel.vercel.app/](https://deep-trace-steel.vercel.app/) |
+| **Backend API** | [https://deeptrace-na69.onrender.com](https://deeptrace-na69.onrender.com) |
+| **Author** | [https://github.com/somiya-namdeo](https://github.com/somiya-namdeo) |
+
+---
 
 ## Overview
 
 ### What is Behaviour Intelligence
-Behaviour Intelligence represents the paradigm shift from discrete signature matching to continuous continuous contextual analysis. It focuses on understanding the latent patterns, sequences, and semantic meaning behind user and entity interactions within a digital environment. By establishing baselines of normalcy—often referred to as the "pattern of life"—Behaviour Intelligence systems can detect sophisticated anomalies that do not match known threat signatures but deviate significantly from established historical contexts.
+Behaviour Intelligence represents the paradigm shift from discrete signature matching to continuous contextual analysis. It focuses on understanding the latent patterns, sequences, and semantic meaning behind user and entity interactions within a digital environment. By establishing baselines of normalcy—often referred to as the "pattern of life"—Behaviour Intelligence systems can detect sophisticated anomalies that do not match known threat signatures but deviate significantly from established historical contexts.
 
 ### Why Traditional Rule-Based Detection Fails
 Traditional Security Information and Event Management (SIEM) systems and Intrusion Detection Systems (IDS) rely heavily on deterministic rules, static thresholds, and known Indicators of Compromise (IoCs). This methodology inherently fails against:
@@ -84,78 +102,72 @@ Using cosine similarity metrics within the high-dimensional latent space, DeepTr
 ## Screenshots
 
 ### Command Center
+The Command Center acts as the primary SOC dashboard, providing a high-level executive summary of the organizational threat landscape. It aggregates system health, active prioritized alerts, global geographic threat intelligence, and high-level infrastructure telemetry.
 
-**Command Center Dashboard Overview**  
-*Purpose: Provides a high-level executive summary of the organizational threat landscape, aggregating system health, active alerts, and global risk metrics.*
-<p align="center"><img src="assets/screenshots/landing-1.png" alt="Command Center 1"></p>
+<p align="center">
+  <img src="assets/screenshots/landing-1.png" alt="Command Center Overview">
+</p>
+<p align="center">
+  <img src="assets/screenshots/landing-2.png" alt="Command Center Active Alerts">
+</p>
+<p align="center">
+  <img src="assets/screenshots/landing-3.png" alt="Command Center Threat Intelligence">
+</p>
+<p align="center">
+  <img src="assets/screenshots/landing-4.png" alt="Command Center System Metrics">
+</p>
 
-**Active Alert Triage**  
-*Purpose: Displays real-time, prioritized security alerts, allowing analysts to quickly identify and respond to critical threat vectors.*
-<p align="center"><img src="assets/screenshots/landing-2.png" alt="Command Center 2"></p>
+### Investigations
+The Investigations hub allows analysts to query specific users, devices, or IP addresses to initiate deep-dive behavioral reviews. It maps the historical timeline of alerts associated with an entity, establishing crucial chronological context for potential compromises.
 
-**Global Threat Intelligence**  
-*Purpose: Visualizes the geographical distribution of anomalies and authentications, crucial for identifying impossible travel and distributed attacks.*
-<p align="center"><img src="assets/screenshots/landing-3.png" alt="Command Center 3"></p>
-
-**System Metric Telemetry**  
-*Purpose: Monitors the underlying infrastructure and data ingestion rates to ensure the Behaviour Intelligence pipeline is functioning nominally.*
-<p align="center"><img src="assets/screenshots/landing-4.png" alt="Command Center 4"></p>
+<p align="center">
+  <img src="assets/screenshots/investigation-1.png" alt="Investigation Search">
+</p>
+<p align="center">
+  <img src="assets/screenshots/investigation-2.png" alt="Investigation Timeline">
+</p>
 
 ### AI Core
+The AI Core dashboard provides deep visibility into the state of the active machine learning models. It tracks historical model performance (accuracy, precision, recall), training epochs, loss metrics, and systemic drift indicators to ensure the Threat Fusion engine remains meticulously calibrated.
 
-**Machine Learning Pipeline Status**  
-*Purpose: Offers deep visibility into the state of the active models, including training epochs, loss metrics, and drift indicators.*
-<p align="center"><img src="assets/screenshots/ai-core-1.png" alt="AI Core 1"></p>
-
-**Model Performance Metrics**  
-*Purpose: Tracks historical model accuracy, precision, and recall, ensuring the Threat Fusion engine remains highly calibrated.*
-<p align="center"><img src="assets/screenshots/ai-core-2.png" alt="AI Core 2"></p>
-
-### Investigation
-
-**Entity Search and Triage**  
-*Purpose: Enables SOC analysts to query specific users, devices, or IP addresses to initiate deep-dive behavioral investigations.*
-<p align="center"><img src="assets/screenshots/investigation-1.png" alt="Investigation 1"></p>
-
-**Historical Alert Correlation**  
-*Purpose: Maps the timeline of alerts associated with a specific entity, establishing the chronological context of a potential compromise.*
-<p align="center"><img src="assets/screenshots/investigation-2.png" alt="Investigation 2"></p>
+<p align="center">
+  <img src="assets/screenshots/ai-core-1.png" alt="AI Core Pipeline Status">
+</p>
+<p align="center">
+  <img src="assets/screenshots/ai-core-2.png" alt="AI Core Performance Metrics">
+</p>
 
 ### Behaviour Evolution
+Behaviour Evolution focuses on tracking statistical shifts in behavioral patterns over time (Concept Drift). It visualizes high-dimensional latent space projections, enabling engineers to monitor how an entity's behavior migrates between clusters or deviates from its assigned peer group.
 
-**Concept Drift Tracking**  
-*Purpose: Visualizes the statistical shift in behavioral patterns over time, alerting engineers when model recalibration is required.*
-<p align="center"><img src="assets/screenshots/BE-1.png" alt="Behaviour Evolution 1"></p>
-
-**Latent Space Projection**  
-*Purpose: Displays a 2D/3D projection (e.g., PCA/t-SNE) of the behavioral embeddings, illustrating how an entity's behavior migrates between clusters.*
-<p align="center"><img src="assets/screenshots/BE-2.png" alt="Behaviour Evolution 2"></p>
-
-**Peer Group Analysis**  
-*Purpose: Compares an individual entity's behavioral evolution against its assigned peer group (e.g., engineering department) to detect localized anomalies.*
-<p align="center"><img src="assets/screenshots/BE-3.png" alt="Behaviour Evolution 3"></p>
-
-**Feature Distribution Shifts**  
-*Purpose: Provides a granular breakdown of which specific behavioral features (e.g., login times, data egress) are driving the concept drift.*
-<p align="center"><img src="assets/screenshots/BE-4.png" alt="Behaviour Evolution 4"></p>
+<p align="center">
+  <img src="assets/screenshots/BE-1.png" alt="Behaviour Evolution Drift Tracking">
+</p>
+<p align="center">
+  <img src="assets/screenshots/BE-2.png" alt="Behaviour Evolution Latent Space">
+</p>
+<p align="center">
+  <img src="assets/screenshots/BE-3.png" alt="Behaviour Evolution Peer Group Analysis">
+</p>
+<p align="center">
+  <img src="assets/screenshots/BE-4.png" alt="Behaviour Evolution Feature Shifts">
+</p>
 
 ### Behaviour Investigation
+Detailed Identity Profiling synthesizes all underlying data points into a singular risk profile. This view highlights SHAP feature attributions, quantifies anomaly similarity mapping, and generates a natural language AI reasoning trace to explain precisely why a Threat Score was escalated.
 
-**Detailed Identity Profiling**  
-*Purpose: Presents a comprehensive view of an entity's current behavioral state, synthesizing all underlying data points into a single risk profile.*
-<p align="center"><img src="assets/screenshots/BI-1.png" alt="Behaviour Investigation 1"></p>
-
-**SHAP Feature Attribution**  
-*Purpose: Translates the AI's decision into human-readable metrics, showing exactly which actions (e.g., "Outside business hours") increased the Threat Score.*
-<p align="center"><img src="assets/screenshots/BI-2.png" alt="Behaviour Investigation 2"></p>
-
-**AI Reasoning Trace**  
-*Purpose: Generates a natural language explanation of the anomaly, allowing Tier 1 analysts to understand complex ML outputs without data science expertise.*
-<p align="center"><img src="assets/screenshots/BI-3.png" alt="Behaviour Investigation 3"></p>
-
-**Behaviour Similarity Mapping**  
-*Purpose: Quantifies how closely the current anomaly resembles known attack patterns (e.g., credential stuffing, ransomware deployment).*
-<p align="center"><img src="assets/screenshots/BI-4.png" alt="Behaviour Investigation 4"></p>
+<p align="center">
+  <img src="assets/screenshots/BI-1.png" alt="Behaviour Investigation Identity Profile">
+</p>
+<p align="center">
+  <img src="assets/screenshots/BI-2.png" alt="Behaviour Investigation SHAP Attribution">
+</p>
+<p align="center">
+  <img src="assets/screenshots/BI-3.png" alt="Behaviour Investigation AI Reasoning Trace">
+</p>
+<p align="center">
+  <img src="assets/screenshots/BI-4.png" alt="Behaviour Investigation Similarity Mapping">
+</p>
 
 ---
 
@@ -190,15 +202,11 @@ Using cosine similarity metrics within the high-dimensional latent space, DeepTr
 | **PostgreSQL** | Relational data storage for alerts, entities, and system metadata. |
 | **Supabase** | Open-source Firebase alternative providing managed Postgres and Auth. |
 
-### Visualization
+### Visualization & Explainability
 | Technology | Purpose |
 | :--- | :--- |
 | **Recharts / Chart.js** | Interactive rendering of temporal telemetry and metrics. |
 | **Mermaid.js** | Declarative rendering of system architectures. |
-
-### Explainability
-| Technology | Purpose |
-| :--- | :--- |
 | **SHAP** | (SHapley Additive exPlanations) Game theory-based feature attribution. |
 
 ---
@@ -207,17 +215,16 @@ Using cosine similarity metrics within the high-dimensional latent space, DeepTr
 
 ```mermaid
 graph TD
-    A[Frontend React UI] -->|REST API| B(FastAPI Backend)
-    B --> C{Behaviour Pipeline}
+    A[Frontend] -->|REST API| B[FastAPI Backend]
+    B --> C[Behaviour Pipeline]
     C -->|Sequential Data| D[Transformer Behaviour Encoder]
     D -->|Latent Embeddings| E[Isolation Forest]
-    D -->|Latent Embeddings| F[Concept Drift Analyzer]
-    E -->|Anomaly Score| G[Threat Fusion Engine]
-    C -->|Raw Features| G
-    G -->|Fused Threat Score| H[SHAP Explainability]
-    H -->|Feature Attributions| I[Behaviour Investigation UI]
-    F -->|Drift Metrics| J[Behaviour Evolution UI]
-    G -->|Alerts & Metrics| K[SOC Dashboard]
+    E -->|Anomaly Score| F[Threat Fusion]
+    D -->|Contextual Similarity Score| F
+    F -->|Fused Threat Score| G[SHAP]
+    G -->|Feature Attributions & Explanations| H[Behaviour Investigation UI]
+    C -->|Raw Features & Embeddings| I[Behaviour Evolution]
+    F -->|Aggregated Alerts & Metrics| J[SOC Dashboard]
 ```
 
 ---
@@ -241,15 +248,15 @@ sequenceDiagram
     participant Encoder as Transformer Encoder
     participant IF as Isolation Forest
     participant Fusion as Threat Fusion
-    participant SHAP as SHAP Engine
-    participant SOC as SOC Analyst
+    participant SHAP Engine
+    participant SOC Analyst
     
     Telemetry->>Encoder: Raw Event Sequences
     Encoder->>IF: Latent Embeddings
     IF->>Fusion: Anomaly Outlier Score
     Encoder->>Fusion: Contextual Similarity Score
-    Fusion->>SHAP: Fused Threat Score
-    SHAP->>SOC: Explainable Narrative & Risk Tier
+    Fusion->>SHAP Engine: Fused Threat Score
+    SHAP Engine->>SOC Analyst: Explainable Narrative & Risk Tier
 ```
 
 ---
@@ -305,7 +312,7 @@ VITE_API_URL=http://localhost:8000
 
 **1. Clone the repository:**
 ```bash
-git clone https://github.com/yourusername/DeepTrace.git
+git clone https://github.com/somiya-namdeo/DeepTrace.git
 cd DeepTrace
 ```
 
@@ -403,11 +410,13 @@ Calculating the distance between a current behavioral embedding and historical e
 
 *Note: Metrics reflect performance on internal synthetic UEBA datasets during the evaluation phase.*
 
-- **Accuracy**: 98.4%
-- **Precision**: 97.1% (Minimizing False Positives)
-- **Recall**: 96.8% (Maximizing Threat Detection)
-- **F1 Score**: 96.9%
-- **ROC-AUC**: 0.992
+| Metric | Score | Description |
+| :--- | :--- | :--- |
+| **Accuracy** | 98.4% | Overall proportion of correct predictions. |
+| **Precision** | 97.1% | High accuracy in positive threat classification (minimizing False Positives). |
+| **Recall** | 96.8% | High sensitivity to genuine anomalous behaviors (maximizing Threat Detection). |
+| **F1 Score** | 96.9% | Harmonic mean of Precision and Recall. |
+| **ROC-AUC** | 0.992 | Area under the Receiver Operating Characteristic curve. |
 
 The **Behaviour Similarity** and **Threat Score** metrics are continuously validated against a hold-out test set designed to simulate zero-day anomalies, ensuring the models remain robust against unseen attack vectors.
 
@@ -415,15 +424,9 @@ The **Behaviour Similarity** and **Threat Score** metrics are continuously valid
 
 ## Future Improvements
 
-- **Integration with Graph Neural Networks (GNNs)**: To better model the complex relationships and lateral movement paths between network entities.
-- **Automated Response Playbooks**: Direct integration with SOAR (Security Orchestration, Automation, and Response) platforms to automatically isolate compromised hosts based on high Threat Scores.
-- **Federated Learning**: Allowing organizations to train the foundational Transformer model collaboratively without sharing sensitive, underlying telemetry data.
-
----
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- [ ] **Integration with Graph Neural Networks (GNNs)**: To better model the complex relationships and lateral movement paths between network entities.
+- [ ] **Automated Response Playbooks**: Direct integration with SOAR (Security Orchestration, Automation, and Response) platforms to automatically isolate compromised hosts based on high Threat Scores.
+- [ ] **Federated Learning**: Allowing organizations to train the foundational Transformer model collaboratively without sharing sensitive, underlying telemetry data.
 
 ---
 
