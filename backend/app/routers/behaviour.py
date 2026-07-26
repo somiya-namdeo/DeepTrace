@@ -4,10 +4,11 @@ import random
 
 router = APIRouter(prefix="/api/behaviour", tags=["Behaviour"])
 
+
 @router.get("/space", response_model=BehaviourSpaceResponse)
 def get_behaviour_space():
     points = []
-    
+
     # Generate ~190 normal points
     for i in range(190):
         points.append(BehaviourSpacePoint(
@@ -16,7 +17,7 @@ def get_behaviour_space():
             cluster="normal",
             label=f"USR-{random.randint(10000, 99999)}"
         ))
-        
+
     # Generate ~22 suspicious points
     for i in range(22):
         points.append(BehaviourSpacePoint(
@@ -25,7 +26,7 @@ def get_behaviour_space():
             cluster="suspicious",
             label=f"USR-{random.randint(10000, 99999)}"
         ))
-        
+
     # Generate ~5 anomaly points
     for i in range(5):
         points.append(BehaviourSpacePoint(
@@ -34,5 +35,5 @@ def get_behaviour_space():
             cluster="anomaly",
             label=f"USR-{random.randint(10000, 99999)}"
         ))
-        
+
     return BehaviourSpaceResponse(points=points)

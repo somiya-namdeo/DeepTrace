@@ -11,6 +11,7 @@ scaler = ScalerLoader()
 iso_forest = IsolationForestLoader()
 transformer = TransformerLoader()
 
+
 def predict_threat(features: list) -> PredictionResponse:
     # 1. Scale features
     X = np.array([features])

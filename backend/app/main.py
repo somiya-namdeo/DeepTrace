@@ -5,7 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers import prediction, alerts, dashboard, explanation, reports, drift, cold_start, behaviour, investigate
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
@@ -34,9 +36,11 @@ app.include_router(cold_start.router)
 app.include_router(behaviour.router)
 app.include_router(investigate.router)
 
+
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "DeepTrace AI API"}
+
 
 if __name__ == "__main__":
     import uvicorn

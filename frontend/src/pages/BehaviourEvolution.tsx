@@ -247,7 +247,7 @@ export const BehaviourEvolution: React.FC = () => {
                 </div>
                 
                 <CircularMetric 
-                  label="Similarity Confidence" 
+                  label="Behaviour Similarity" 
                   value={coldStart.similarity_score * 100} 
                   subvalue={`${(coldStart.similarity_score * 100).toFixed(1)}%`} 
                   color="#2DD4BF" 

@@ -5,6 +5,7 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .env*
+!.env.example
 node_modules/
 .DS_Store
 Thumbs.db

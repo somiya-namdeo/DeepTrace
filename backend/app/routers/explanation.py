@@ -4,6 +4,7 @@ from app.services.explanation_service import get_shap_explanation
 
 router = APIRouter(prefix="/api/explanation", tags=["Explainability"])
 
+
 @router.get("/{alert_id}", response_model=ExplanationResponse)
 def get_explanation(alert_id: str):
     try:

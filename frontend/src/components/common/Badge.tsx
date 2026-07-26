@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from './GlassCard';
+import { cn } from '../../utils/cn';
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: 'default' | 'primary' | 'warning' | 'critical' | 'outline';

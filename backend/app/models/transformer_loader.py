@@ -8,6 +8,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 logger = logging.getLogger(__name__)
 
+
 class TransformerBehavioralModel(nn.Module):
     def __init__(
         self,
@@ -18,7 +19,7 @@ class TransformerBehavioralModel(nn.Module):
         dropout=0.2
     ):
         super(TransformerBehavioralModel, self).__init__()
-        
+
         self.embedding = nn.Linear(
             input_dim,
             d_model
@@ -39,10 +40,10 @@ class TransformerBehavioralModel(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(d_model,64),
+            nn.Linear(d_model, 64),
             nn.GELU(),
             nn.Dropout(dropout),
-            nn.Linear(64,1)
+            nn.Linear(64, 1)
         )
 
     def forward(self, x):
@@ -65,11 +66,11 @@ class TransformerLoader:
             )
         else:
             self.model_path = Path(model_path)
-            
-        print(f"Loading Transformer from:\n{self.model_path}")
+
         self.model = None
         self.is_mock = False
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu")
         self._load_model()
 
     def _load_model(self):
@@ -80,25 +81,30 @@ class TransformerLoader:
             num_layers=2,
             dropout=0.2
         )
-        
+
         if os.path.exists(self.model_path):
             try:
-                self.model.load_state_dict(torch.load(self.model_path, map_location=self.device))
+                self.model.load_state_dict(
+                    torch.load(
+                        self.model_path,
+                        map_location=self.device))
                 logger.info("Transformer loaded successfully.")
             except Exception as e:
-                logger.error(f"Failed to load Transformer from {self.model_path}: {e}")
+                logger.error(
+                    f"Failed to load Transformer from {self.model_path}: {e}")
                 self._initialize_mock()
         else:
-            logger.warning("WARNING: Real model not found. Using mock model for development.")
+            logger.warning(
+                "WARNING: Real model not found. Using mock model for development.")
             self._initialize_mock()
-            
+
         self.model.to(self.device)
         self.model.eval()
 
     def _initialize_mock(self):
         self.is_mock = True
-        # Model is already initialized with random weights, which serves perfectly as a mock for API testing
-        pass
+        # Model is already initialized with random weights, which serves
+        # perfectly as a mock for API testing
 
     def predict_proba(self, X: torch.Tensor) -> float:
         # X should be (batch_size, seq_len, features)

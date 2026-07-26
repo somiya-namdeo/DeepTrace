@@ -1,9 +1,13 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
-from datetime import datetime
+from typing import List
+
 
 class PredictionRequest(BaseModel):
-    features: List[float] = Field(..., min_items=49, max_items=49, description="Array of 49 engineered features.")
+    features: List[float] = Field(...,
+                                  min_items=49,
+                                  max_items=49,
+                                  description="Array of 49 engineered features.")
+
 
 class PredictionResponse(BaseModel):
     threat_score: float
@@ -12,6 +16,7 @@ class PredictionResponse(BaseModel):
     recommended_action: str
     model_prediction: int
     anomaly_prediction: int
+
 
 class AlertModel(BaseModel):
     AlertID: str
@@ -26,6 +31,7 @@ class AlertModel(BaseModel):
     AlertCategory: str
     RecommendedAction: str
 
+
 class AlertSummary(BaseModel):
     alert_id: str
     title: str
@@ -35,11 +41,13 @@ class AlertSummary(BaseModel):
     status: str
     timestamp: str
 
+
 class PaginatedAlerts(BaseModel):
     total: int
     page: int
     limit: int
     alerts: List[AlertSummary]
+
 
 class DashboardSummary(BaseModel):
     TotalEvents: int
@@ -51,11 +59,13 @@ class DashboardSummary(BaseModel):
     SeverityDistribution: dict
     AlertStatusDistribution: dict
 
+
 class ExplanationResponse(BaseModel):
     alert_id: str
     top_features: List[str]
     feature_contributions: List[float]
     explanation: str
+
 
 class MetricsResponse(BaseModel):
     Accuracy: float
@@ -64,10 +74,12 @@ class MetricsResponse(BaseModel):
     F1Score: float
     ROCAUC: float
 
+
 class DriftAffectedFeature(BaseModel):
     feature: str
     psi_score: float
     status: str
+
 
 class DriftStatusResponse(BaseModel):
     overall_drift_score: float
@@ -77,8 +89,13 @@ class DriftStatusResponse(BaseModel):
     drift_detected_features: int
     affected_features: List[DriftAffectedFeature]
 
+
 class ColdStartRequest(BaseModel):
-    features: List[float] = Field(..., min_items=49, max_items=49, description="Array of 49 engineered features.")
+    features: List[float] = Field(...,
+                                  min_items=49,
+                                  max_items=49,
+                                  description="Array of 49 engineered features.")
+
 
 class ColdStartResponse(BaseModel):
     similarity_score: float
@@ -86,14 +103,17 @@ class ColdStartResponse(BaseModel):
     risk_level: str
     explanation: str
 
+
 class BehaviourSpacePoint(BaseModel):
     x: float
     y: float
     cluster: str
     label: str
 
+
 class BehaviourSpaceResponse(BaseModel):
     points: List[BehaviourSpacePoint]
+
 
 class IdentityInfo(BaseModel):
     identity_id: str
@@ -101,20 +121,24 @@ class IdentityInfo(BaseModel):
     last_activity: str
     department: str
 
+
 class BehaviouralSignal(BaseModel):
     name: str
     value: str
-    status: str # e.g. "normal", "deviation"
+    status: str  # e.g. "normal", "deviation"
+
 
 class ClusterComparison(BaseModel):
     closest_cluster: str
     similarity_score: float
     deviation_level: str
 
+
 class ModelAnalysis(BaseModel):
     isolation_forest_result: str
     transformer_score: float
     threat_fusion_score: float
+
 
 class IdentityInvestigationResponse(BaseModel):
     data_source: str
@@ -123,4 +147,3 @@ class IdentityInvestigationResponse(BaseModel):
     cluster_comparison: ClusterComparison
     model_analysis: ModelAnalysis
     ai_explanation: str
-

@@ -6,6 +6,7 @@ import logging
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 logger = logging.getLogger(__name__)
 
+
 class DriftService:
     def __init__(self, drift_path=None):
         if drift_path is None:
@@ -18,19 +19,19 @@ class DriftService:
             raise FileNotFoundError("Concept drift report not found.")
 
         df = pd.read_csv(self.drift_path)
-        
+
         overall_drift_score = float(df['PSI Score'].mean())
-        
+
         stable = int((df['Status'] == 'Stable').sum())
         warning = int((df['Status'] == 'Warning').sum())
         drift_detected = int((df['Status'] == 'Drift Detected').sum())
-        
+
         system_status = "Stable"
         if drift_detected > 0:
             system_status = "Drift Detected"
         elif warning > 0:
             system_status = "Warning"
-            
+
         affected_df = df[df['Status'] != 'Stable']
         affected_features = []
         for _, row in affected_df.iterrows():
@@ -41,7 +42,7 @@ class DriftService:
                     status=row['Status']
                 )
             )
-            
+
         return DriftStatusResponse(
             overall_drift_score=overall_drift_score,
             system_status=system_status,
