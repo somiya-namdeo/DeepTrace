@@ -196,12 +196,6 @@ Detailed Identity Profiling synthesizes all underlying data points into a singul
 | **Scikit-Learn** | Implementation of the Isolation Forest and clustering algorithms. |
 | **NumPy & Pandas** | High-performance matrix operations and data manipulation. |
 
-### Database
-| Technology | Purpose |
-| :--- | :--- |
-| **PostgreSQL** | Relational data storage for alerts, entities, and system metadata. |
-| **Supabase** | Open-source Firebase alternative providing managed Postgres and Auth. |
-
 ### Visualization & Explainability
 | Technology | Purpose |
 | :--- | :--- |
